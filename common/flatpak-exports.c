@@ -643,11 +643,17 @@ flatpak_exports_append_bwrap_args (FlatpakExports *exports,
                                 etc_bind_mode, "/etc", "/run/host/etc", NULL);
     }
 
+  /* Expose /etc/pki from bind root. This bind permit to share host root ca without p11-kit and use normal way for
+   * all applications to check if an certificate is valid */
+   if (flatpak_exports_stat_in_host (exports, "/etc/pki", &buf, 0, NULL))
+      flatpak_bwrap_add_args (bwrap, "--ro-bind", "/etc/pki", "/etc/pki", NULL);
+
+
   /* As per the os-release specification https://www.freedesktop.org/software/systemd/man/os-release.html
    * always read-only bind-mount /etc/os-release if it exists, or /usr/lib/os-release as a fallback from
    * the host into the application's /run/host */
   if (flatpak_exports_stat_in_host (exports, "/etc/os-release", &buf, 0, NULL))
-    flatpak_bwrap_add_args (bwrap, "--ro-bind", "/etc/os-release", "/run/host/os-release", NULL);
+     flatpak_bwrap_add_args (bwrap, "--ro-bind", "/etc/os-release", "/run/host/os-release", NULL);
   else if (flatpak_exports_stat_in_host (exports, "/usr/lib/os-release", &buf, 0, NULL))
     flatpak_bwrap_add_args (bwrap, "--ro-bind", "/usr/lib/os-release", "/run/host/os-release", NULL);
 }
