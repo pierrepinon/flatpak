@@ -645,8 +645,7 @@ flatpak_exports_append_bwrap_args (FlatpakExports *exports,
 
   /* Expose /etc/pki from bind root. This bind permit to share host root ca without p11-kit and use normal way for
    * all applications to check if an certificate is valid */
-   if (flatpak_exports_stat_in_host (exports, "/etc/pki", &buf, 0, NULL))
-      flatpak_bwrap_add_args (bwrap, "--ro-bind", "/etc/pki", "/etc/pki", NULL);
+   flatpak_bwrap_add_args (bwrap, "--ro-bind", "/etc/pki", "/etc/pki", NULL);
 
 
   /* As per the os-release specification https://www.freedesktop.org/software/systemd/man/os-release.html
