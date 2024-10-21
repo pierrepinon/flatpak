@@ -595,6 +595,8 @@ static const ExportData default_exports[] = {
   {"__EGL_EXTERNAL_PLATFORM_CONFIG_FILENAMES", NULL},
   {"__EGL_VENDOR_LIBRARY_DIRS", NULL},
   {"__EGL_VENDOR_LIBRARY_FILENAMES", NULL},
+  // Keep NODE_EXTRA_CA_CERTS from host to inject custom root CA to nodejs apps
+  {"NODE_EXTRA_CA_CERTS", NULL},
 };
 
 static const ExportData no_ld_so_cache_exports[] = {
